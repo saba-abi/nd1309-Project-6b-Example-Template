@@ -63,8 +63,8 @@ contract('SupplyChain', function(accounts) {
         assert.equal(resultBufferOne[6], originFarmLatitude, 'Error: Missing or Invalid originFarmLatitude')
         assert.equal(resultBufferOne[7], originFarmLongitude, 'Error: Missing or Invalid originFarmLongitude')
         assert.equal(resultBufferTwo[5], 0, 'Error: Invalid item State')
-        truffleAssert.eventEmitted(result, 'Harvested');   
-    })    
+        truffleAssert.eventEmitted(result, 'Harvested')
+    })
 
     // 2nd Test
     it("Testing smart contract function processItem() that allows a farmer to process coffee", async() => {
@@ -78,7 +78,7 @@ contract('SupplyChain', function(accounts) {
 
         // Verify the result set
         assert.equal(resultBufferTwo[5], 1, 'Error: Invalid item State')
-        truffleAssert.eventEmitted(result, 'Processed');   
+        truffleAssert.eventEmitted(result, 'Processed')
     })    
 
     // 3rd Test
@@ -93,27 +93,23 @@ contract('SupplyChain', function(accounts) {
 
         // Verify the result set
         assert.equal(resultBufferTwo[5], 2, 'Error: Invalid item State')
-        truffleAssert.eventEmitted(result, 'Packed');  
+        truffleAssert.eventEmitted(result, 'Packed')
     })    
 
     // 4th Test
     it("Testing smart contract function sellItem() that allows a farmer to sell coffee", async() => {
         const supplyChain = await SupplyChain.deployed()
-        
-        // Declare and Initialize a variable for event
-        
-        
-        // Watch the emitted event ForSale()
-        
 
         // Mark an item as ForSale by calling function sellItem()
-        
+        const result = await supplyChain.sellItem(upc, productPrice)
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-        
+        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)          
 
         // Verify the result set
-          
+        assert.equal(resultBufferTwo[4], productPrice, 'Error: Invalid product price')
+        assert.equal(resultBufferTwo[5], 3, 'Error: Invalid item State')
+        truffleAssert.eventEmitted(result, 'ForSale')
     })    
 
     // 5th Test
