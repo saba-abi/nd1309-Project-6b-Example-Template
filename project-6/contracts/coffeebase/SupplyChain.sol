@@ -164,12 +164,19 @@ contract SupplyChain {
     string memory _productNotes
   ) public {
     // Add the new item as part of Harvest
-    
+    items[_upc].upc = _upc;
+    items[_upc].sku = sku;
+    items[_upc].originFarmerID = _originFarmerID;
+    items[_upc].originFarmName = _originFarmName;
+    items[_upc].originFarmInformation = _originFarmInformation;
+    items[_upc].originFarmLatitude = _originFarmLatitude;
+    items[_upc].originFarmLongitude = _originFarmLongitude;
+    items[_upc].productNotes = _productNotes;
+    items[_upc].ownerID = msg.sender;
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
-    emit Harvested(_upc);
-    
+    emit Harvested(_upc); 
   }
 
   // Define a function 'processtItem' that allows a farmer to mark an item 'Processed'
@@ -274,60 +281,49 @@ contract SupplyChain {
   // Define a function 'fetchItemBufferOne' that fetches the data
   function fetchItemBufferOne(uint _upc) public view returns 
   (
-  uint    itemSKU,
-  uint    itemUPC,
-  address ownerID,
-  address originFarmerID,
-  string  memory originFarmName,
-  string  memory originFarmInformation,
-  string  memory originFarmLatitude,
-  string  memory originFarmLongitude
+    uint    itemSKU,
+    uint    itemUPC,
+    address ownerID,
+    address originFarmerID,
+    string  memory originFarmName,
+    string  memory originFarmInformation,
+    string  memory originFarmLatitude,
+    string  memory originFarmLongitude
   ) 
   {
-  // Assign values to the 8 parameters
-  
-    
-  return 
-  (
-  itemSKU,
-  itemUPC,
-  ownerID,
-  originFarmerID,
-  originFarmName,
-  originFarmInformation,
-  originFarmLatitude,
-  originFarmLongitude
-  );
+    // Assign values to the 8 parameters
+    itemSKU = items[_upc].sku;
+    itemUPC = items[_upc].upc;
+    ownerID = items[_upc].ownerID;
+    originFarmerID = items[_upc].originFarmerID;
+    originFarmName = items[_upc].originFarmName;
+    originFarmInformation = items[_upc].originFarmInformation;
+    originFarmLatitude = items[_upc].originFarmLatitude;
+    originFarmLongitude = items[_upc].originFarmLongitude;
   }
 
   // Define a function 'fetchItemBufferTwo' that fetches the data
   function fetchItemBufferTwo(uint _upc) public view returns 
   (
-  uint    itemSKU,
-  uint    itemUPC,
-  uint    productID,
-  string  memory productNotes,
-  uint    productPrice,
-  uint    itemState,
-  address distributorID,
-  address retailerID,
-  address consumerID
+    uint    itemSKU,
+    uint    itemUPC,
+    uint    productID,
+    string  memory productNotes,
+    uint    productPrice,
+    uint    itemState,
+    address distributorID,
+    address retailerID,
+    address consumerID
   ) 
   {
-    // Assign values to the 9 parameters
-  
-    
-  return 
-  (
-  itemSKU,
-  itemUPC,
-  productID,
-  productNotes,
-  productPrice,
-  itemState,
-  distributorID,
-  retailerID,
-  consumerID
-  );
+    itemSKU = items[_upc].sku;
+    itemUPC = items[_upc].upc;
+    productID = items[_upc].productID;
+    productNotes = items[_upc].productNotes;
+    productPrice = items[_upc].productPrice;
+    itemState = uint256(items[_upc].itemState);
+    distributorID = items[_upc].distributorID;
+    retailerID = items[_upc].retailerID;
+    consumerID = items[_upc].consumerID;
   }
 }
