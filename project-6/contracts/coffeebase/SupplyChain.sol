@@ -137,6 +137,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole 
     string memory _originFarmLongitude,
     string memory _productNotes
   ) public onlyFarmer {
+    require(items[_upc].upc != _upc, 'UPC already exists');
     items[_upc].upc = _upc;
     items[_upc].sku = sku;
     items[_upc].productID = _upc * 10000 + sku;
@@ -147,6 +148,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole 
     items[_upc].originFarmLongitude = _originFarmLongitude;
     items[_upc].productNotes = _productNotes;
     items[_upc].ownerID = _originFarmerID;
+    items[_upc].itemState = State.Harvested;
     sku = sku + 1;
     emit Harvested(_upc); 
   }
