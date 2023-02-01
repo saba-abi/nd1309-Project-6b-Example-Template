@@ -249,8 +249,7 @@ App = {
 
     buyItem: async function () {
         await App.contracts.SupplyChain.deployed().then(function(instance) {
-            const walletValue = web3.toWei(2000000, "gwei");
-            return instance.buyItem(App.form.upc, { from: App.form.distributorID, value: walletValue });
+            return instance.buyItem(App.form.upc, { from: App.form.distributorID, value: App.form.productPrice });
         }).then(function(result) {
             console.log('buyItem', result);
         }).catch(function(err) {
