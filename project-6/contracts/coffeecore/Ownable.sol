@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
+import "../coffeebase/SupplyChain.sol";
+
 /// Provides basic authorization control
-abstract contract Ownable {
+abstract contract Ownable is SupplyChain {
     address private origOwner;
 
     // Define an Event
@@ -12,6 +14,11 @@ abstract contract Ownable {
     constructor () {
         origOwner = msg.sender;
         emit TransferOwnership(address(0), origOwner);
+    }
+
+    // Define a function 'kill' if required
+    function kill() onlyOwner public {
+        selfdestruct(payable(origOwner));
     }
 
     /// Look up the address of the owner
